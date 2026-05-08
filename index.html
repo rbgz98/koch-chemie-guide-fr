@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koch Chemie — Guide des Produits</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #161616;
+    --border: #222222;
+    --text: #e8e8e8;
+    --muted: #888888;
+    --accent: #e8c84a;
+    --accent2: #c0392b;
+
+    --gs-color: #2ecc71;
+    --as-color: #3498db;
+    --mwc-color: #e74c3c;
+    --asc-color: #1abc9c;
+    --gc-color: #5dade2;
+    --qs-color: #f39c12;
+    --pol-color: #9b59b6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(232,200,74,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    letter-spacing: 2px;
+    color: #fff;
+    line-height: 1;
+  }
+
+  header p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 14px;
+    max-width: 540px;
+  }
+
+  .nav-wrap {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-wrap::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+    position: relative;
+    top: 1px;
+  }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .product-card {
+    display: none;
+    animation: fadeUp .35s ease;
+  }
+  .product-card.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .product-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .product-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: #000;
+    flex-shrink: 0;
+    letter-spacing: 1px;
+  }
+
+  .product-title-wrap h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 1px;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .product-title-wrap .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .ph-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    background: rgba(255,255,255,0.07);
+    color: var(--accent);
+    border: 1px solid rgba(232,200,74,0.3);
+  }
+
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .section p {
+    color: #bbb;
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+
+  .dilution-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+
+  .dilution-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dilution-table td {
+    padding: 12px 12px;
+    font-size: 14px;
+    color: #ccc;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+
+  .dilution-table tr:last-child td { border-bottom: none; }
+
+  .dilution-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--accent);
+  }
+
+  .steps { list-style: none; padding: 0; }
+  .steps li {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #bbb;
+    font-size: 14.5px;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(232,200,74,0.12);
+    border: 1px solid rgba(232,200,74,0.3);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .alert {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .alert.warning {
+    background: rgba(231, 76, 60, 0.08);
+    border: 1px solid rgba(231, 76, 60, 0.25);
+    color: #e87c6a;
+  }
+  .alert.tip {
+    background: rgba(232,200,74,0.07);
+    border: 1px solid rgba(232,200,74,0.22);
+    color: #c9a83c;
+  }
+  .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    background: rgba(255,255,255,0.06);
+    color: #aaa;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .rtu-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(46,204,113,0.1);
+    border: 1px solid rgba(46,204,113,0.3);
+    color: #2ecc71;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Bass Motors · Guide des Produits</div>
+  <h1>Koch Chemie<br>Guide Produits</h1>
+  <p>Guide professionnel pour tous les produits Koch Chemie — valeurs pH, dilutions, applications et instructions d'utilisation.</p>
+</header>
+
+<div class="nav-wrap">
+  <button class="nav-btn active" onclick="show('gs')">GS — Green Star</button>
+  <button class="nav-btn" onclick="show('as')">AS — Autoshampoo</button>
+  <button class="nav-btn" onclick="show('mwc')">MWC — Magic Wheel</button>
+  <button class="nav-btn" onclick="show('asc')">ASC — Allround Surface</button>
+  <button class="nav-btn" onclick="show('gc')">GC — Glass Cleaner</button>
+  <button class="nav-btn" onclick="show('qs')">QS — Quick Shine</button>
+  <button class="nav-btn" onclick="show('pol')">Pol Star</button>
+</div>
+
+<main>
+
+  <!-- ===== GREEN STAR ===== -->
+  <div class="product-card active" id="gs">
+    <div class="product-header">
+      <div class="product-badge" style="background:var(--gs-color);">GS</div>
+      <div class="product-title-wrap">
+        <h2>Green Star</h2>
+        <div class="subtitle">Nettoyant universel alcalin · Concentré</div>
+        <div class="ph-pill">pH 12,5 — Fortement alcalin</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Qu'est-ce que c'est ?</div>
+      <p>Green Star (GS) est un nettoyant universel alcalin hautement concentré, sans phosphate ni solvant. Grâce à ses inhibiteurs de corrosion intégrés, il est suffisamment agressif pour éliminer la graisse de moteur incrustée, tout en restant sûr pour la plupart des métaux et surfaces laquées lorsqu'il est correctement dilué. Il remplace efficacement plusieurs produits en atelier : dégraissant, nettoyant de passage de roues, nettoyant intérieur (à dilution faible) et nettoyant moteur.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Domaines d'utilisation</div>
+      <div style="margin-top:4px;">
+        <span class="tag">Extérieur</span>
+        <span class="tag">Moteur & compartiment moteur</span>
+        <span class="tag">Passages de roues</span>
+        <span class="tag">Joints de portières</span>
+        <span class="tag">Sol d'atelier</span>
+        <span class="tag">Textiles & moquettes</span>
+        <span class="tag">Plastiques durs</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Guide de dilution</div>
+      <table class="dilution-table">
+        <thead>
+          <tr>
+            <th>Application</th>
+            <th>Dilution</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Extérieur / moteur (très sale)</td>
+            <td><span class="dilution-value">1:5</span></td>
+            <td>Concentration max. VDA classe A. Bien rincer.</td>
+          </tr>
+          <tr>
+            <td>Extérieur / moteur (saleté normale)</td>
+            <td><span class="dilution-value">1:10 – 1:20</span></td>
+            <td>Recommandé avec nettoyeur haute pression</td>
+          </tr>
+          <tr>
+            <td>Extérieur / moteur (légèrement sale)</td>
+            <td><span class="dilution-value">1:30</span></td>
+            <td>Entretien & nettoyage régulier</td>
+          </tr>
+          <tr>
+            <td>Intérieur : plastiques durs</td>
+            <td><span class="dilution-value">1:10 – 1:20</span></td>
+            <td>Essuyer ensuite avec un chiffon humide</td>
+          </tr>
+          <tr>
+            <td>Intérieur : textiles / moquettes</td>
+            <td><span class="dilution-value">1:20</span></td>
+            <td>Compatible avec machines d'extraction</td>
+          </tr>
+          <tr>
+            <td>Sol d'atelier</td>
+            <td><span class="dilution-value">1:40 – 1:120</span></td>
+            <td>Plus c'est sale, plus la dilution est forte</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Instructions étape par étape (extérieur)</div>
+      <ul class="steps">
+        <li><span class="step-num">1</span>Diluer Green Star dans un flacon pulvérisateur selon le tableau ci-dessus pour l'application concernée.</li>
+        <li><span class="step-num">2</span>Vaporiser sur la surface et laisser agir 2–5 minutes (max. 5 minutes — norme VDA classe A).</li>
+        <li><span class="step-num">3</span>Brosser ou agiter si nécessaire pour les salissures tenaces.</li>
+        <li><span class="step-num">4</span>Rincer abondamment au nettoyeur haute pression ou à l'eau. Ne jamais laisser sécher sur la surface.</li>
+      </ul>
+    </div>
+
+    <div class="alert warning">
+      <span class="alert-icon">⚠️</span>
+      <span><strong>Attention :</strong> Ne pas utiliser Green Star sur les surfaces laquées des véhicules avec revêtement céramique — l'alcalinité détériore le revêtement à l'usage répété. Utiliser sur les passages de roues, le compartiment moteur et les joints de portières. Ne pas utiliser sur le cuir — utiliser Pol Star à la place.</span>
+    </div>
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Conseil pro :</strong> Préparer deux flacons prémélangés : un à 1:10 comme "APC général" et un à 1:5 pour le nettoyage moteur. Cela évite de devoir remélanger à chaque intervention.</span>
+    </div>
+  </div>
+
+  <!-- ===== AUTOSHAMPOO ===== -->
+  <div class="product-card" id="as">
+    <div class="product-header">
+      <div class="product-badge" style="background:var(--as-color);">AS</div>
+      <div class="product-title-wrap">
+        <h2>Autoshampoo</h2>
+        <div class="subtitle">Shampoing véhicule pour lavage manuel & station · Concentré</div>
+        <div class="ph-pill">pH 9,0 — Légèrement alcalin</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Qu'est-ce que c'est ?</div>
+      <p>L'Autoshampoo (AS) est un shampoing véhicule sans phosphate ni NTA, adapté aux stations de lavage, aux systèmes automatisés et au lavage à la main. La combinaison de tensioactifs anioniques et non ioniques garantit un nettoyage doux mais efficace. Compatible avec les installations biologiques de traitement des eaux usées et conforme VDA classe A.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Domaines d'utilisation</div>
+      <div style="margin-top:4px;">
+        <span class="tag">Lavage à la main</span>
+        <span class="tag">Station de lavage</span>
+        <span class="tag">Systèmes automatisés</span>
+        <span class="tag">Extérieur régulier</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Guide de dilution</div>
+      <table class="dilution-table">
+        <thead>
+          <tr>
+            <th>Application</th>
+            <th>Dilution / dosage</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lavage à la main (seau)</td>
+            <td><span class="dilution-value">1:150</span></td>
+            <td>± 100 ml pour 15 litres d'eau</td>
+          </tr>
+          <tr>
+            <td>Pompe doseuse (station de lavage)</td>
+            <td><span class="dilution-value">Pur ou 1:10</span></td>
+            <td>6–10 ml par véhicule recommandés</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Instructions étape par étape (lavage à la main)</div>
+      <ul class="steps">
+        <li><span class="step-num">1</span>Rincer d'abord entièrement le véhicule à l'eau pour éliminer les salissures grossières.</li>
+        <li><span class="step-num">2</span>Ajouter ± 100 ml de shampoing dans un seau de 15 litres et remplir d'eau. Utiliser la méthode à deux seaux (un propre, un pour le rinçage).</li>
+        <li><span class="step-num">3</span>Laver le véhicule de haut en bas avec un gant de lavage doux ou une éponge.</li>
+        <li><span class="step-num">4</span>Rincer abondamment. Ne jamais laisser sécher le shampoing sur la surface.</li>
+        <li><span class="step-num">5</span>Sécher avec un chiffon microfibre ou un souffleur.</li>
+      </ul>
+    </div>
+
+    <div class="alert warning">
+      <span class="alert-icon">⚠️</span>
+      <span><strong>Attention :</strong> Ne jamais laisser sécher le produit sur la surface — cela peut laisser des traces. Vérifier la compatibilité avant utilisation.</span>
+    </div>
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Conseil pro Bass Motors :</strong> Pour les véhicules d'occasion nécessitant un nettoyage approfondi avant la vente, envisager un pré-lavage avec Green Star (très dilué) avant la phase shampooing.</span>
+    </div>
+  </div>
+
+  <!-- ===== MAGIC WHEEL CLEANER ===== -->
+  <div class="product-card" id="mwc">
+    <div class="product-header">
+      <div class="product-badge" style="background:var(--mwc-color);">MWC</div>
+      <div class="product-title-wrap">
+        <h2>Magic Wheel Cleaner</h2>
+        <div class="subtitle">Nettoyant jantes avec élimination du fer · Prêt à l'emploi</div>
+        <div class="ph-pill">pH 5,5 — Légèrement acide</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Qu'est-ce que c'est ?</div>
+      <p>Magic Wheel Cleaner (MWC) est un nettoyant jantes puissant et visqueux, formulé sans acide mais légèrement acide avec un pH de 5,5. La formule active réagit aux particules de fer (poussière de freins) et le signale par une <strong style="color:#e74c3c;">décoloration rouge visible</strong> — confirmation visuelle que le produit agit. Des agents dispersants spéciaux soulèvent et dissolvent les salissures tenaces, tandis que la consistance épaisse garantit une adhérence optimale sur la jante.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Domaines d'utilisation</div>
+      <div style="margin-top:4px;">
+        <span class="tag">Jantes acier</span>
+        <span class="tag">Jantes aluminium</span>
+        <span class="tag">Creux de jantes</span>
+        <span class="tag">Étriers de frein</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Dilution</div>
+      <div style="margin-top:8px;">
+        <span class="rtu-badge">✓ Prêt à l'emploi — Pas de dilution</span>
+        <p style="margin-top:12px; color:#888; font-size:13.5px;">MWC s'utilise toujours pur. Le diluer réduit considérablement son efficacité.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Instructions étape par étape</div>
+      <ul class="steps">
+        <li><span class="step-num">1</span>S'assurer que les jantes sont froides et non exposées au soleil direct. Rincer légèrement à l'eau.</li>
+        <li><span class="step-num">2</span>Agiter brièvement le flacon. Vaporiser généreusement MWC sur la surface et dans le creux de la jante.</li>
+        <li><span class="step-num">3</span>Laisser agir 2–5 minutes. Le liquide deviendra rouge/violet — c'est normal et souhaité.</li>
+        <li><span class="step-num">4</span>Pour un meilleur résultat : agiter avec une brosse à jantes (optionnel mais efficace sur les jantes très encrassées).</li>
+        <li><span class="step-num">5</span>Rincer abondamment au nettoyeur haute pression. Effectuer ensuite un lavage de contact avec un nettoyant alcalin (ex. Green Star dilué) pour un résultat optimal.</li>
+      </ul>
+    </div>
+
+    <div class="alert warning">
+      <span class="alert-icon">⚠️</span>
+      <span><strong>Sécurité :</strong> MWC dégage une odeur forte — toujours utiliser à l'extérieur ou dans un espace bien ventilé. Porter des gants et une protection oculaire. Ne pas utiliser sur des surfaces chaudes ou en plein soleil.</span>
+    </div>
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Conseil pro :</strong> Combiner MWC en pré-traitement avec Green Star (dilué) en étape suivante. MWC élimine les particules de fer chimiquement, Green Star nettoie mécaniquement les salissures restantes — combinaison imbattable pour les véhicules d'occasion.</span>
+    </div>
+  </div>
+
+  <!-- ===== ASC ===== -->
+  <div class="product-card" id="asc">
+    <div class="product-header">
+      <div class="product-badge" style="background:var(--asc-color);">ASC</div>
+      <div class="product-title-wrap">
+        <h2>Allround Surface Cleaner</h2>
+        <div class="subtitle">Nettoyant intérieur universel · Prêt à l'emploi</div>
+        <div class="ph-pill">pH Neutre</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Qu'est-ce que c'est ?</div>
+      <p>L'Allround Surface Cleaner (ASC) est un nettoyant de surface prêt à l'emploi pour l'automobile, la maison et le lieu de travail. Il élimine sans effort les empreintes digitales, la poussière, la graisse et autres salissures de toutes les surfaces lisses, sans laisser de traces d'eau ni de résidus. La formule est adaptée à l'acier inoxydable, aux plastiques, au cuir et aux textiles.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Domaines d'utilisation</div>
+      <div style="margin-top:4px;">
+        <span class="tag">Tableau de bord</span>
+        <span class="tag">Panneaux de portières</span>
+        <span class="tag">Cuir</span>
+        <span class="tag">Plastiques</span>
+        <span class="tag">Acier inoxydable</span>
+        <span class="tag">Textiles (entretien)</span>
+        <span class="tag">Console</span>
+        <span class="tag">Vitres intérieures</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Dilution</div>
+      <div style="margin-top:8px;">
+        <span class="rtu-badge">✓ Prêt à l'emploi — Pas de dilution</span>
+        <p style="margin-top:12px; color:#888; font-size:13.5px;">L'ASC s'utilise toujours pur. Vaporiser directement et essuyer.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Instructions étape par étape</div>
+      <ul class="steps">
+        <li><span class="step-num">1</span>Vaporiser l'ASC directement sur la surface ou sur un chiffon microfibre.</li>
+        <li><span class="step-num">2</span>Essuyer la surface avec le chiffon microfibre.</li>
+        <li><span class="step-num">3</span>Pour les salissures tenaces, vaporiser à nouveau. Aucun rinçage nécessaire.</li>
+        <li><span class="step-num">4</span>Peut également être utilisé avec un pistolet à air comprimé pour les grandes surfaces — essuyer ensuite.</li>
+      </ul>
+    </div>
+
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Conseil pro :</strong> Idéal pour les finitions rapides d'intérieur des véhicules d'occasion avant livraison. Résultat rapide et sans traces sur toutes les surfaces intérieures sans risque de détérioration. Se combine parfaitement avec Pol Star pour un nettoyage plus profond des textiles et du cuir.</span>
+    </div>
+  </div>
+
+  <!-- ===== GLASS CLEANER ===== -->
+  <div class="product-card" id="gc">
+    <div class="product-header">
+      <div class="product-badge" style="background:var(--gc-color);">GC</div>
+      <div class="product-title-wrap">
+        <h2>Glass Cleaner</h2>
+        <div class="subtitle">Nettoyant vitres pour véhicule & bâtiment · Prêt à l'emploi</div>
+        <div class="ph-pill">pH Neutre</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Qu'est-ce que c'est ?</div>
+      <p>Le Koch Chemie Glass Cleaner (GC) est un nettoyant vitre prêt à l'emploi pour toutes les surfaces lisses des véhicules, bâtiments et plus encore. La formule élimine sans effort même les taches les plus tenaces — huile, graisse et résidus d'insectes. Des additifs brillance et douceur améliorent les performances du chiffon de nettoyage et laissent les surfaces étincelantes, lisses et sans traces.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Domaines d'utilisation</div>
+      <div style="margin-top:4px;">
+        <span class="tag">Pare-brise</span>
+        <span class="tag">Lunette arrière</span>
+        <span class="tag">Vitres latérales</span>
+        <span class="tag">Vitres intérieures</span>
+        <span class="tag">Rétroviseurs</span>
+        <span class="tag">Fenêtres de bâtiments</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Dilution</div>
+      <div style="margin-top:8px;">
+        <span class="rtu-badge">✓ Prêt à l'emploi — Pas de dilution</span>
+        <p style="margin-top:12px; color:#888; font-size:13.5px;">Vaporiser directement et essuyer. Répéter si nécessaire sur les vitres très encrassées.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Instructions étape par étape</div>
+      <ul class="steps">
+        <li><span class="step-num">1</span>Vaporiser le Glass Cleaner directement sur la vitre ou sur un chiffon microfibre propre.</li>
+        <li><span class="step-num">2</span>Essuyer horizontalement avec un premier chiffon microfibre propre.</li>
+        <li><span class="step-num">3</span>Utiliser un second chiffon microfibre sec pour éliminer les traces — essuyer verticalement.</li>
+        <li><span class="step-num">4</span>Répéter si nécessaire sur les vitres très encrassées (ex. traces de nicotine ou film huileux).</li>
+      </ul>
+    </div>
+
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Conseil pro :</strong> Toujours utiliser deux chiffons microfibres : le premier nettoie, le second polit sans traces. Fonctionne également très bien sur les miroirs et les plastiques brillants.</span>
+    </div>
+    <div class="alert warning">
+      <span class="alert-icon">⚠️</span>
+      <span><strong>Attention :</strong> Ne pas utiliser le Glass Cleaner sur des surfaces chauffées ou en plein soleil — cela augmente le risque de traces.</span>
+    </div>
+  </div>
+
+  <!-- ===== QUICK SHINE ===== -->
+  <div class="product-card" id="qs">
+    <div class="product-header">
+      <div class="product-badge" style="background:var(--qs-color);">QS</div>
+      <div class="product-title-wrap">
+        <h2>Quick &amp; Shine</h2>
+        <div class="subtitle">Quick detailer pour toutes surfaces lisses · Prêt à l'emploi</div>
+        <div class="ph-pill">pH Neutre</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Qu'est-ce que c'est ?</div>
+      <p>Quick & Shine (QS) est le quick detailer polyvalent pour toutes les surfaces lisses et laquées : peinture automobile, bois laqué, verre, pièces en plastique, consoles, meubles, instruments de musique, surfaces en acier inoxydable, etc. Il nettoie, entretient et conserve en une seule étape. Les surfaces obtiennent un brillant profond et éclatant sans traces. Les empreintes digitales et les légères salissures sont éliminées rapidement. Les surfaces traitées repoussent l'eau et la saleté (effet lotus). Homologation officielle Daimler (Mercedes).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Domaines d'utilisation</div>
+      <div style="margin-top:4px;">
+        <span class="tag">Peinture automobile</span>
+        <span class="tag">Verre</span>
+        <span class="tag">Plastiques</span>
+        <span class="tag">Acier inoxydable</span>
+        <span class="tag">Finitions intérieures</span>
+        <span class="tag">Showroom</span>
+        <span class="tag">Salon automobile</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Dilution</div>
+      <div style="margin-top:8px;">
+        <span class="rtu-badge">✓ Prêt à l'emploi — Pas de dilution</span>
+        <p style="margin-top:12px; color:#888; font-size:13.5px;">Vaporiser directement sur la surface ou sur un chiffon microfibre et frotter. Ne pas utiliser sur des surfaces chaudes.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Instructions étape par étape</div>
+      <ul class="steps">
+        <li><span class="step-num">1</span>Laver le véhicule comme d'habitude et sécher (partiellement).</li>
+        <li><span class="step-num">2</span>Vaporiser 3–4 fois par panneau sur la surface ou sur le chiffon de séchage.</li>
+        <li><span class="step-num">3</span>Frotter le panneau avec le chiffon de séchage et utiliser un second chiffon propre pour polir sans traces.</li>
+        <li><span class="step-num">4</span>Peut également être utilisé après séchage comme finition ou pour un détailing sans eau.</li>
+      </ul>
+    </div>
+
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Conseil pro Bass Motors :</strong> Parfait pour la dernière touche de finition avant de présenter un véhicule à un client ou en showroom. Application rapide, résultat impressionnant. Fonctionne également très bien sur les garnitures intérieures brillantes.</span>
+    </div>
+    <div class="alert warning">
+      <span class="alert-icon">⚠️</span>
+      <span><strong>Attention :</strong> Ne pas utiliser sur des surfaces chaudes. QS est compatible avec les revêtements céramiques, cires et sealants — n'endommage pas les couches de protection.</span>
+    </div>
+  </div>
+
+  <!-- ===== POL STAR ===== -->
+  <div class="product-card" id="pol">
+    <div class="product-header">
+      <div class="product-badge" style="background:var(--pol-color);">POL</div>
+      <div class="product-title-wrap">
+        <h2>Pol Star</h2>
+        <div class="subtitle">Nettoyant intérieur cuir, alcantara & textile · Concentré</div>
+        <div class="ph-pill">pH Neutre</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Qu'est-ce que c'est ?</div>
+      <p>Pol Star est un nettoyant neutre efficace avec formule de protection pour le cuir, l'alcantara et les textiles tels que les revêtements et moquettes. La saleté est extraite en profondeur des fibres par une mousse à lamelles finement poreuses et peut être aspirée avec un aspirateur eau/poussière ou essuyée avec un chiffon humide. Ne laisse aucune trace d'eau et préserve l'imperméabilisation d'origine. Le conservateur protège les pièces contre un re-encrassement rapide.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Domaines d'utilisation</div>
+      <div style="margin-top:4px;">
+        <span class="tag">Sièges en cuir</span>
+        <span class="tag">Alcantara</span>
+        <span class="tag">Revêtements & moquettes</span>
+        <span class="tag">Volant</span>
+        <span class="tag">Plastiques durs (intérieur)</span>
+        <span class="tag">Tapis de sol</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Guide de dilution</div>
+      <table class="dilution-table">
+        <thead>
+          <tr>
+            <th>Application</th>
+            <th>Dilution</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Très sale (textile / moquette)</td>
+            <td><span class="dilution-value">1:5</span></td>
+            <td>Nettoyage intensif, bien faire mousser</td>
+          </tr>
+          <tr>
+            <td>Usage normal (cuir / alcantara)</td>
+            <td><span class="dilution-value">1:10</span></td>
+            <td>Ratio le plus utilisé en pratique</td>
+          </tr>
+          <tr>
+            <td>Entretien / légèrement sale</td>
+            <td><span class="dilution-value">1:15 – 1:20</span></td>
+            <td>Idéal pour l'entretien régulier de l'intérieur</td>
+          </tr>
+          <tr>
+            <td>Plastiques durs (tableau de bord)</td>
+            <td><span class="dilution-value">1:15</span></td>
+            <td>Sûr sur presque tous les matériaux intérieurs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Instructions étape par étape</div>
+      <ul class="steps">
+        <li><span class="step-num">1</span>Diluer Pol Star dans un flacon pulvérisateur (de préférence un flacon moussant pour un maximum de mousse sur le cuir).</li>
+        <li><span class="step-num">2</span>Vaporiser le produit sur la surface ou directement sur une brosse douce ou une éponge.</li>
+        <li><span class="step-num">3</span>Travailler délicatement avec une brosse douce — la mousse soulève la saleté des fibres.</li>
+        <li><span class="step-num">4</span>Enlever la saleté et la mousse avec un chiffon microfibre humide ou utiliser un aspirateur eau/poussière pour les textiles.</li>
+        <li><span class="step-num">5</span>Laisser sécher complètement. Sur le cuir : essuyer doucement avec un chiffon propre et sec pour restaurer la texture.</li>
+      </ul>
+    </div>
+
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Conseil pro :</strong> Utiliser un flacon moussant pour Pol Star lors du nettoyage du cuir — l'application en mousse pénètre plus profondément dans les pores. Toujours commencer avec les dilutions les plus faibles et augmenter si nécessaire. 1:10 est le ratio idéal pour la plupart des cas.</span>
+    </div>
+    <div class="alert tip">
+      <span class="alert-icon">💡</span>
+      <span><strong>Polyvalence :</strong> Pol Star fonctionne sur le cuir, les textiles, les plastiques et l'alcantara — un seul produit pour tout l'intérieur. Idéal pour la préparation des véhicules d'occasion chez Bass Motors.</span>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
